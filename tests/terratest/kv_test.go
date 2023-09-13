@@ -5,16 +5,16 @@ import (
 	"testing"
 
  	"github.com/gruntwork-io/terratest/modules/azure"
- 	kvauth "github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
-    kvmng "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2016-10-01/keyvault"
-    "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
+//  	kvauth "github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
+//     kvmng "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2016-10-01/keyvault"
+//     "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
 )
 
 // Testing the secure-file-transfer Module
-func TestTerraformAzureStorageAccount(t *testing.T) {
+func TestTerraformAzureKeyVault(t *testing.T) {
 	t.Parallel()
 
 	//subscriptionID := "e6b5053b-4c38-4475-a835-a025aeb3d8c7"
@@ -49,12 +49,12 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
  	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
 	kv_name := terraform.Output(t, terraformPlanOptions, "name")
  	kv_id := terraform.Output(t, terraformPlanOptions, "id")
- 	kv_secret := terraform.Output(t, terraformPlanOptions, "secrets")
+ 	kv_secret := terraform.Output(t, terraformPlanOptions, "secrets.name")
 //  	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
  	subscriptionID := terraform.Output(t, terraformPlanOptions, "subscription_id")
 
-    assert.True(t, azure.KeyVaultSecretExists(t, kv_name, kv_secret.name ))
-    keyVault, _ := azure.GetKeyVaultE(resourceGroupName, kv_name, subscriptionID)
+     assert.True(t, azure.KeyVaultSecretExists(t, kv_name, kv_secret ))
+    keyVault, _ := azure.GetKeyVaultE(t, resourceGroupName, kv_name, subscriptionID)
 
 	assert.Equal(t, kv_id, *keyVault.ID)
 
