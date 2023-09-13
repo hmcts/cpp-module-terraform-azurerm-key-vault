@@ -1,14 +1,14 @@
-output "key_vault_id" {
+output "id" {
   description = "The ID of the Key Vault."
   value       = module.key-vault.id
 }
 
-output "key_vault_name" {
+output "name" {
   description = "Name of key vault created."
   value       = module.key-vault.name
 }
 
-output "key_vault_uri" {
+output "vault_uri" {
   description = "The URI of the Key Vault, used for performing operations on keys and secrets."
   value       = module.key-vault.vault_uri
 }

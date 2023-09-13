@@ -47,8 +47,8 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
 
 	// Run `terraform output` to get the values of output variables
  	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
-	kv_name := terraform.Output(t, terraformPlanOptions, "key-vault-name")
- 	kv_id := terraform.Output(t, terraformPlanOptions, "key_vault_id")
+	kv_name := terraform.Output(t, terraformPlanOptions, "name")
+ 	kv_id := terraform.Output(t, terraformPlanOptions, "id")
  	kv_secret := terraform.Output(t, terraformPlanOptions, "secrets")
 //  	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
  	subscriptionID := terraform.Output(t, terraformPlanOptions, "subscription_id")
