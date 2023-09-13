@@ -142,3 +142,9 @@ variable "random_password_length" {
   description = "The desired length of random password created by this module"
   default     = 32
 }
+
+variable "azure_ad_service_principal_names" {
+  type        = string
+  description = "Name of theDWP PRJ number (obtained from the project portfolio in TechNow)"
+  default     = ""
+}
