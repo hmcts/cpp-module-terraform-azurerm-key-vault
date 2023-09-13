@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "test" {
 resource "azurerm_key_vault" "key-vault" {
   name                            = var.key-vault-name
   location                        = var.location
-  resource_group_name             = var.resource_group_name
+  resource_group_name             = azurerm_resource_group.test.name
   tenant_id                       = var.tenant_id
   sku_name                        = var.sku_name
   public_network_access_enabled   = var.public_network_access_enabled
