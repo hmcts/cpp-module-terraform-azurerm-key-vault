@@ -81,7 +81,7 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
   }
   private_dns_zone_group {
     name                 = "dns-zone-group-sa"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv.id]
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
   }
   tags = var.tags
 }
