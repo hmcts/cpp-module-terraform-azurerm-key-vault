@@ -1,9 +1,19 @@
-
+module "tag_set" {
+  source         = "git::https://github.com/hmcts/cpp-module-terraform-azurerm-tag-generator.git?ref=main"
+  namespace      = var.namespace
+  application    = var.application
+  costcode       = var.costcode
+  owner          = var.owner
+  version_number = var.version_number
+  attribute      = var.attribute
+  environment    = var.environment
+  type           = var.type
+}
 
 resource "azurerm_resource_group" "test" {
   name     = var.resource_group_name
   location = var.location
-  #  tags     = module.tag_set.tags
+  tags     = module.tag_set.tags
 }
 
 
@@ -19,7 +29,7 @@ resource "azurerm_key_vault" "key-vault" {
   enabled_for_deployment          = var.enabled_for_deployment
   purge_protection_enabled        = var.purge_protection_enabled
   soft_delete_retention_days      = var.soft_delete_retention_days
-  #  tags                            = module.tag_set.tags
+  tags                            = module.tag_set.tags
 
   #  dynamic "network_acls" {
   #    for_each = var.network_acls != null ? [true] : []
