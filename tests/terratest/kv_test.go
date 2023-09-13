@@ -49,7 +49,7 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
 // 	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
 
 
-	assert.Equal(t, "KV-TEST-01", kv_name)
+	assert.Equal(t, "KV-TEST-02-LAB-Terratest", kv_name)
 // 	assert.Equal(t, "StorageV2", storageAccountKind)
 // 	assert.Equal(t, "Standard_LRS", kv_id)
 // 	//assert.Equal(t, "Deny", string(storageAccountProperties.NetworkRuleSet.DefaultAction))
