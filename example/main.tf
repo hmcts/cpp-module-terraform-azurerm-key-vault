@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "test" {
 
 module "key-vault" {
   source                          = "../"
-  name                            = var.key-vault-name
+  name                            = var.name
   location                        = var.location
   resource_group_name             = azurerm_resource_group.test.name
   tenant_id                       = var.tenant_id

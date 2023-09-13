@@ -8,7 +8,7 @@ variable "sku_name" {
   default = ""
 }
 
-variable "key-vault-name" {
+variable "name" {
   type    = string
   default = ""
 }
