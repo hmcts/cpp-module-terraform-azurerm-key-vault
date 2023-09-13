@@ -1,4 +1,4 @@
-key-vault-name                = "KV-TEST-01"
+key-vault-name                = "KV-TEST-02"
 tenant_id                     = "e2995d11-9947-4e78-9de6-d44e0603518e"
 sku_name                      = "standard"
 public_network_access_enabled = true
