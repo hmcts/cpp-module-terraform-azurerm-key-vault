@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gruntwork-io/terratest/modules/azure"
+// 	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
@@ -43,10 +43,10 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
 	terraform.InitAndApply(t, terraformPlanOptions)
 
 	// Run `terraform output` to get the values of output variables
-	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
+// 	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
 	kv_name := terraform.Output(t, terraformPlanOptions, "key-vault-name")
-	kv_id := terraform.Output(t, terraformPlanOptions, "key_vault_id")
-	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
+// 	kv_id := terraform.Output(t, terraformPlanOptions, "key_vault_id")
+// 	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
 
 
 	assert.Equal(t, "KV-TEST-01", kv_name)
