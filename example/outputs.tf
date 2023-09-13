@@ -1,14 +1,27 @@
 output "key_vault_id" {
   description = "The ID of the Key Vault."
-  value       = azurerm_key_vault.key-vault.id
+  value       = module.key-vault.id
 }
 
 output "key_vault_name" {
   description = "Name of key vault created."
-  value       = azurerm_key_vault.key-vault.name
+  value       = module.key-vault.name
 }
 
 output "key_vault_uri" {
   description = "The URI of the Key Vault, used for performing operations on keys and secrets."
-  value       = azurerm_key_vault.key-vault.vault_uri
+  value       = module.key-vault.vault_uri
+}
+
+output "secrets" {
+  description = "A mapping of secret names and URIs."
+  value       = { for k, v in azurerm_key_vault_secret.keys : v.name => v.id }
+}
+
+output "subscription_id" {
+  value = data.azurerm_subscription.current.subscription_id
+}
+
+output "resource_group_name" {
+  value = azurerm_resource_group.test.name
 }

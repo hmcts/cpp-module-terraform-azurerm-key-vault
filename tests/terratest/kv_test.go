@@ -4,7 +4,10 @@ import (
 	"path/filepath"
 	"testing"
 
-// 	"github.com/gruntwork-io/terratest/modules/azure"
+ 	"github.com/gruntwork-io/terratest/modules/azure"
+ 	kvauth "github.com/Azure/azure-sdk-for-go/services/keyvault/auth"
+    kvmng "github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2016-10-01/keyvault"
+    "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.0/keyvault"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 	"github.com/stretchr/testify/assert"
@@ -43,15 +46,17 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
 	terraform.InitAndApply(t, terraformPlanOptions)
 
 	// Run `terraform output` to get the values of output variables
-// 	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
+ 	resourceGroupName := terraform.Output(t, terraformPlanOptions, "resource_group_name")
 	kv_name := terraform.Output(t, terraformPlanOptions, "key-vault-name")
-// 	kv_id := terraform.Output(t, terraformPlanOptions, "key_vault_id")
-// 	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
+ 	kv_id := terraform.Output(t, terraformPlanOptions, "key_vault_id")
+ 	kv_secret := terraform.Output(t, terraformPlanOptions, "secrets")
+//  	kv_uri := terraform.Output(t, terraformPlanOptions, "key_vault_uri")
+ 	subscriptionID := terraform.Output(t, terraformPlanOptions, "subscription_id")
+
+    assert.True(t, azure.KeyVaultSecretExists(t, kv_name, kv_secret.name ))
+    keyVault, _ := azure.GetKeyVaultE(resourceGroupName, kv_name, subscriptionID)
+
+	assert.Equal(t, kv_id, *keyVault.ID)
 
 
-	assert.Equal(t, "KV-TEST-02-LAB-Terratest", kv_name)
-// 	assert.Equal(t, "StorageV2", storageAccountKind)
-// 	assert.Equal(t, "Standard_LRS", kv_id)
-// 	//assert.Equal(t, "Deny", string(storageAccountProperties.NetworkRuleSet.DefaultAction))
-// 	assert.Equal(t, "TLS1_2", string(storageAccountProperties.MinimumTLSVersion))
 }

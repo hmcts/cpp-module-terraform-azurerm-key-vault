@@ -131,3 +131,14 @@ variable "soft_delete_retention_days" {
   type    = number
   default = 1
 }
+
+variable "secrets" {
+  type        = map(string)
+  description = "A map of secrets for the Key Vault."
+  default     = {}
+}
+
+variable "random_password_length" {
+  description = "The desired length of random password created by this module"
+  default     = 32
+}
