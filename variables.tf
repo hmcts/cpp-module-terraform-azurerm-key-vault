@@ -3,7 +3,7 @@ variable "location" {
   default = "uksouth"
 }
 
-variable "key-vault-name" {
+variable "name" {
   type    = string
   default = ""
 }

@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "key-vault" {
-  name                            = var.key-vault-name
+  name                            = var.name
   location                        = var.location
   resource_group_name             = var.resource_group_name
   tenant_id                       = var.tenant_id
@@ -68,7 +68,7 @@ data "azurerm_private_dns_zone" "dns_kv" {
 
 resource "azurerm_private_endpoint" "endpoint-vault" {
   count               = var.public_network_access_enabled ? 0 : 1
-  name                = "${var.key-vault-name}-vault-pvt"
+  name                = "${var.name}-vault-pvt"
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_kv
