@@ -16,12 +16,12 @@ func TestTerraformAzureStorageAccount(t *testing.T) {
 
 	//subscriptionID := "e6b5053b-4c38-4475-a835-a025aeb3d8c7"
 	// Terraform plan.out File Path
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "..", "example/")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../..", "example/")
 	planFilePath := filepath.Join(exampleFolder, "plan.out")
 
 	terraformPlanOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../example/",
+		TerraformDir: "../../example/",
 		Upgrade:      true,
 
 		// Variables to pass to our Terraform code using -var options
