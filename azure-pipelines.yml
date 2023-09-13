@@ -18,4 +18,4 @@ extends:
     spnCredentialsVarGroup: "terratest-app-registration"
     azureServiceConnection: "ado_nonlive_service_principal_lab"
     terratestTimeout: "30"
-    tfversion: 1.5.3
+    tfversion: 1.5.7
