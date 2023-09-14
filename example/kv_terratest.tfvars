@@ -18,7 +18,7 @@ secrets = {
 #  "Purge",
 #]
 
-access_policies = [
+access_policy = [
   {
     azure_ad_service_principal_names = ["ado_nonlive_service_principal_lab"]
     secret_permissions               = ["get", "list"]
