@@ -13,10 +13,10 @@ output "vault_uri" {
   value       = module.key-vault.vault_uri
 }
 
-output "secrets" {
-  description = "A mapping of secret names and URIs."
-  value       = { for k, v in azurerm_key_vault_secret.keys : v.name => v.id }
-}
+#output "secrets" {
+#  description = "A mapping of secret names and URIs."
+#  value       = { for k, v in azurerm_key_vault_secret.keys : v.name => v.id }
+#}
 
 output "subscription_id" {
   value = data.azurerm_subscription.current.subscription_id

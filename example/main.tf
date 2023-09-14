@@ -59,29 +59,29 @@ module "key-vault" {
 
 }
 
-resource "random_password" "passwd" {
-  for_each    = { for k, v in var.secrets : k => v if v == "" }
-  length      = var.random_password_length
-  min_upper   = 4
-  min_lower   = 2
-  min_numeric = 4
-  min_special = 4
-
-  keepers = {
-    name = each.key
-  }
-}
-
-resource "azurerm_key_vault_secret" "keys" {
-  for_each     = var.secrets
-  name         = each.key
-  value        = each.value != "" ? each.value : random_password.passwd[each.key].result
-  key_vault_id = module.key-vault.id
-
-  lifecycle {
-    ignore_changes = [
-      tags,
-      value,
-    ]
-  }
-}
+#resource "random_password" "passwd" {
+#  for_each    = { for k, v in var.secrets : k => v if v == "" }
+#  length      = var.random_password_length
+#  min_upper   = 4
+#  min_lower   = 2
+#  min_numeric = 4
+#  min_special = 4
+#
+#  keepers = {
+#    name = each.key
+#  }
+#}
+#
+#resource "azurerm_key_vault_secret" "keys" {
+#  for_each     = var.secrets
+#  name         = each.key
+#  value        = each.value != "" ? each.value : random_password.passwd[each.key].result
+#  key_vault_id = module.key-vault.id
+#
+#  lifecycle {
+#    ignore_changes = [
+#      tags,
+#      value,
+#    ]
+#  }
+#}
