@@ -40,8 +40,15 @@ variable "key_permissions" {
 }
 
 variable "secret_permissions" {
-  type    = list(string)
-  default = []
+  type = list(string)
+  default = [
+    "Set",
+    "List",
+    "Get",
+    "Delete",
+    "Recover",
+    "Purge",
+  ]
 }
 
 variable "sku_name" {
@@ -152,4 +159,14 @@ variable "azure_ad_service_principal_names" {
   type        = string
   description = "Name of theDWP PRJ number (obtained from the project portfolio in TechNow)"
   default     = "ado_nonlive_service_principal_lab"
+}
+
+variable "access_policies" {
+  description = "List of access policies for the Key Vault."
+  default     = []
+}
+
+variable "access_policy" {
+  description = "List of access policies for the Key Vault."
+  default     = []
 }

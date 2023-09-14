@@ -8,12 +8,19 @@ secrets = {
   "message" = "terratest"
   "vmpass"  = ""
 }
-azure_ad_service_principal_names = "ado_nonlive_service_principal_lab"
-secret_permissions = [
-  "Set",
-  "List",
-  "Get",
-  "Delete",
-  "Recover",
-  "Purge",
+#azure_ad_service_principal_names = "ado_nonlive_service_principal_lab"
+#secret_permissions = [
+#  "Set",
+#  "List",
+#  "Get",
+#  "Delete",
+#  "Recover",
+#  "Purge",
+#]
+
+access_policies = [
+  {
+    azure_ad_service_principal_names = ["ado_nonlive_service_principal_lab"]
+    secret_permissions               = ["get", "list"]
+  }
 ]

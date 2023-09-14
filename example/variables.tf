@@ -148,3 +148,13 @@ variable "azure_ad_service_principal_names" {
   description = "Name of theDWP PRJ number (obtained from the project portfolio in TechNow)"
   default     = ""
 }
+
+variable "access_policies" {
+  description = "List of access policies for the Key Vault."
+  default     = []
+}
+
+variable "access_policy" {
+  description = "List of access policies for the Key Vault."
+  default     = []
+}
