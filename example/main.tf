@@ -48,13 +48,15 @@ module "key-vault" {
   #      virtual_network_subnet_ids = var.network_acls.virtual_network_subnet_ids
   #    }
   #  }
-  access_policy = [
-    {
-      tenant_id          = data.azurerm_client_config.current.tenant_id
-      object_id          = data.azurerm_client_config.current.object_id
-      secret_permissions = ["get", "list"]
-    }
-  ]
+  access_policy = [{
+    tenant_id               = data.azurerm_client_config.current.tenant_id
+    object_id               = data.azurerm_client_config.current.object_id
+    secret_permissions      = ["Get", "List"]
+    certificate_permissions = []
+    key_permissions         = []
+    storage_permissions     = []
+  }]
+
 }
 
 resource "random_password" "passwd" {
