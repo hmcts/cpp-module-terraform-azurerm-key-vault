@@ -19,10 +19,10 @@ resource "azurerm_resource_group" "test" {
   tags     = module.tag_set.tags
 }
 
-data "azuread_service_principal" "adspn" {
-  count        = length(var.access_policy.azure_ad_service_principal_names)
-  display_name = var.access_policy.azure_ad_service_principal_names[count.index]
-}
+#data "azuread_service_principal" "adspn" {
+#  count        = length(var.access_policy.azure_ad_service_principal_names)
+#  display_name = var.access_policy.azure_ad_service_principal_names[count.index]
+#}
 
 module "key-vault" {
   source                          = "../"
@@ -51,7 +51,7 @@ module "key-vault" {
   access_policy = [
     {
       tenant_id          = data.azurerm_client_config.current.tenant_id
-      object_id          = { for s in data.azuread_service_principal.adspn : lower(s.display_name) => s.id }
+      object_id          = data.azurerm_client_config.current.object_id
       secret_permissions = ["get", "list"]
     }
   ]
