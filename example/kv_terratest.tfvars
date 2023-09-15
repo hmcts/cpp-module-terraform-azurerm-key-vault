@@ -4,6 +4,7 @@ sku_name                      = "standard"
 public_network_access_enabled = true
 soft_delete_retention_days    = 7
 enable_data_lookup            = false
+
 #secrets = {
 #  "message" = "terratest"
 #  "vmpass"  = ""

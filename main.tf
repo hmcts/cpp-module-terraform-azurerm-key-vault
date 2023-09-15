@@ -69,7 +69,7 @@ resource "azurerm_key_vault_secret" "keys" {
 data "azurerm_private_dns_zone" "dns_kv" {
   count               = var.enable_data_lookup ? 1 : 0
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = "RG-MDV-INT-01"
+  resource_group_name = var.private_dns_resource_group_name
 
 }
 

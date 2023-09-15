@@ -158,3 +158,9 @@ variable "access_policy" {
   description = "List of access policies for the Key Vault."
   default     = []
 }
+
+variable "private_dns_resource_group_name" {
+  description = "Resource group for private dns"
+  type        = string
+  default     = null
+}
