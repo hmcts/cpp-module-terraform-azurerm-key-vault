@@ -40,7 +40,7 @@ resource "azurerm_key_vault" "key-vault" {
 }
 
 resource "random_password" "passwd" {
-  for_each    = { for k, v in var.secrets : k => v if v == "" }
+  for_each    = { for k, v in coalesce(var.secrets, {}) : k => v if v == "" }
   length      = var.random_password_length
   min_upper   = 4
   min_lower   = 2
@@ -53,7 +53,7 @@ resource "random_password" "passwd" {
 }
 
 resource "azurerm_key_vault_secret" "keys" {
-  for_each     = var.secrets
+  for_each     = { for k, v in coalesce(var.secrets, {}) : k => v if v == "" }
   name         = each.key
   value        = each.value != "" ? each.value : random_password.passwd[each.key].result
   key_vault_id = azurerm_key_vault.key-vault.id
