@@ -176,3 +176,8 @@ variable "private_dns_resource_group_name" {
   type        = string
   default     = null
 }
+
+variable "enable_rbac_authorization" {
+  description = "Specify whether Azure Key Vault uses Role Based Access Control for authorization"
+  default     = false
+}
