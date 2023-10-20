@@ -161,16 +161,6 @@ variable "azure_ad_service_principal_names" {
   default     = "ado_nonlive_service_principal_lab"
 }
 
-variable "access_policies" {
-  description = "List of access policies for the Key Vault."
-  default     = []
-}
-
-variable "access_policy" {
-  description = "List of access policies for the Key Vault."
-  default     = []
-}
-
 variable "private_dns_resource_group_name" {
   description = "Resource group for private dns"
   type        = string
@@ -180,4 +170,9 @@ variable "private_dns_resource_group_name" {
 variable "enable_rbac_authorization" {
   description = "Specify whether Azure Key Vault uses Role Based Access Control for authorization"
   default     = false
+}
+
+variable "rbac_policy" {
+  description = "List of rbac policies for the Key Vault."
+  default     = []
 }
