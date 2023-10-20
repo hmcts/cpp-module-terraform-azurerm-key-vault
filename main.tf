@@ -17,18 +17,6 @@ resource "azurerm_key_vault" "key-vault" {
   soft_delete_retention_days      = var.soft_delete_retention_days
   tags                            = var.tags
 
-  dynamic "access_policy" {
-    for_each = var.access_policy
-    content {
-      tenant_id               = data.azurerm_client_config.current.tenant_id
-      object_id               = access_policy.value.object_id
-      certificate_permissions = access_policy.value.certificate_permissions
-      key_permissions         = access_policy.value.key_permissions
-      secret_permissions      = access_policy.value.secret_permissions
-      storage_permissions     = access_policy.value.storage_permissions
-    }
-  }
-
   dynamic "network_acls" {
     for_each = var.network_acls != null ? [true] : []
     content {
@@ -92,4 +80,12 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
     private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
   }
   tags = var.tags
+}
+
+resource "azurerm_role_assignment" "keyvault_group_role_assignment" {
+  for_each = var.rbac_policy
+
+  principal_id         = each.key
+  scope                = azurerm_key_vault.key-vault.id
+  role_definition_name = each.value.role_definition_name
 }

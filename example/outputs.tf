@@ -1,16 +1,16 @@
 output "id" {
   description = "The ID of the Key Vault."
-  value       = module.key-vault.id
+  value       = element(values(module.key-vault).*.id, 0)
 }
 
 output "name" {
   description = "Name of key vault created."
-  value       = module.key-vault.name
+  value       = element(values(module.key-vault).*.name, 0)
 }
 
 output "vault_uri" {
   description = "The URI of the Key Vault, used for performing operations on keys and secrets."
-  value       = module.key-vault.vault_uri
+  value       = values(module.key-vault).*.vault_uri
 }
 
 output "subscription_id" {

@@ -99,43 +99,9 @@ variable "tags" {
   default     = {}
 }
 
-
-variable "public_network_access_enabled" {
-  description = "Whether the public network access is enabled"
-  type        = bool
-}
-
 variable "enable_data_lookup" {
   type    = bool
   default = false
-}
-
-variable "network_acls" {
-  description = "Network rules to apply to key vault."
-  type = object({
-    bypass                     = string
-    default_action             = string
-    ip_rules                   = list(string)
-    virtual_network_subnet_ids = list(string)
-  })
-  default = null
-}
-
-
-variable "purge_protection_enabled" {
-  type    = bool
-  default = false
-}
-
-variable "soft_delete_retention_days" {
-  type    = number
-  default = 1
-}
-
-variable "secrets" {
-  type        = map(string)
-  description = "A map of secrets for the Key Vault."
-  default     = {}
 }
 
 variable "random_password_length" {
@@ -143,24 +109,32 @@ variable "random_password_length" {
   default     = 32
 }
 
-variable "azure_ad_service_principal_names" {
-  type        = string
-  description = "Name of theDWP PRJ number (obtained from the project portfolio in TechNow)"
-  default     = ""
-}
+variable "key_vaults" {
+  type = map(object({
+    tenant_id                       = optional(string)
+    sku_name                        = string
+    public_network_access_enabled   = bool
+    enabled_for_template_deployment = bool
+    enabled_for_disk_encryption     = optional(bool)
+    enabled_for_deployment          = optional(bool)
+    purge_protection_enabled        = bool
+    soft_delete_retention_days      = number
+    enable_rbac_authorization       = optional(bool)
+    secrets                         = optional(map(string))
+    network_acls = object({
+      bypass                     = string
+      default_action             = string
+      ip_rules                   = optional(list(string))
+      virtual_network_subnet_ids = optional(list(string))
+    })
+    rbac_policy = list(object({
+      azure_ad_service_principal_names = optional(list(string))
+      azure_ad_group_names             = optional(list(string))
+      azure_ad_user_principal_names    = optional(list(string))
+      role_definition_name             = optional(string)
+    }))
 
-variable "access_policies" {
-  description = "List of access policies for the Key Vault."
-  default     = []
-}
-
-variable "access_policy" {
-  description = "List of access policies for the Key Vault."
-  default     = []
-}
-
-variable "private_dns_resource_group_name" {
-  description = "Resource group for private dns"
-  type        = string
-  default     = null
+  }))
+  default     = {}
+  description = "Configuration for key vault creation"
 }
