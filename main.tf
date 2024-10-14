@@ -62,6 +62,19 @@ data "azurerm_private_dns_zone" "dns_kv" {
 
 }
 
+data "azurerm_private_dns_zone" "dns_external" {
+  for_each            = var.external_private_endpoint_map
+  name                = "privatelink.vaultcore.azure.net"
+  resource_group_name = each.value.private_dns_resource_group_name
+}
+
+data "azurerm_subnet" "external_subnet" {
+  for_each             = var.external_private_endpoint_map
+  name                 = each.value.subnet_name
+  virtual_network_name = each.key
+  resource_group_name  = each.value.vnet_resource_group_name
+}
+
 resource "azurerm_private_endpoint" "endpoint-vault" {
   count               = var.public_network_access_enabled ? 0 : 1
   name                = "${var.name}-vault-pvt"
@@ -79,6 +92,28 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
     name                 = "dns-zone-group-kv"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
   }
+  tags = var.tags
+}
+
+resource "azurerm_private_endpoint" "external_endpoint_vault" {
+  for_each            = var.external_private_endpoint_map
+  name                = "${var.name}-${each.value.subnet_name}-${each.value.private_dns_resource_group_name}-vault-pe"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = data.azurerm_subnet.external_subnet[each.key].id
+
+  private_service_connection {
+    name                           = "${var.name}-${each.value.subnet_name}-${each.value.private_dns_resource_group_name}-psc"
+    private_connection_resource_id = azurerm_key_vault.key-vault.id
+    subresource_names              = ["vault"]
+    is_manual_connection           = false
+  }
+
+  private_dns_zone_group {
+    name                 = "${var.name}-${each.value.private_dns_resource_group_name}-dns-zone-group"
+    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_external[each.key].id]
+  }
+
   tags = var.tags
 }
 

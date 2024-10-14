@@ -176,3 +176,13 @@ variable "rbac_policy" {
   description = "List of rbac policies for the Key Vault."
   default     = []
 }
+
+variable "external_private_endpoint_map" {
+  description = "Map of external private endpoints to VNet details"
+  type = map(object({
+    vnet_resource_group_name        = string
+    private_dns_resource_group_name = string
+    subnet_name                     = string
+  }))
+  default = {}
+}
