@@ -124,3 +124,10 @@ resource "azurerm_role_assignment" "keyvault_group_role_assignment" {
   scope                = azurerm_key_vault.key-vault.id
   role_definition_name = each.value.role_definition_name
 }
+
+resource "azurerm_management_lock" "key_vault_lock" {
+  name       = "${azurerm_key_vault.key-vault.name}-lock"
+  scope      = azurerm_key_vault.key-vault.id
+  lock_level = "CanNotDelete"
+  notes      = "This lock protects the Key Vault from accidental deletion."
+}
