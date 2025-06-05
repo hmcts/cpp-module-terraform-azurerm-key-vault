@@ -100,7 +100,7 @@ resource "azurerm_private_endpoint" "external_endpoint_vault" {
   name                = "${var.name}-${each.value.subnet_name}-${each.value.private_dns_resource_group_name}-vault-pe"
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = data.azurerm_subnet.external_subnet[each.key].id
+  subnet_id           = lookup(each.value, "external_subnet_id", data.azurerm_subnet.external_subnet[each.key].id)
 
   private_service_connection {
     name                           = "${var.name}-${each.value.subnet_name}-${each.value.private_dns_resource_group_name}-psc"

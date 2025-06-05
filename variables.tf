@@ -183,6 +183,7 @@ variable "external_private_endpoint_map" {
     vnet_resource_group_name        = string
     private_dns_resource_group_name = string
     subnet_name                     = string
+    external_subnet_id              = optional(string)
   }))
   default = {}
 }
