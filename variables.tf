@@ -174,7 +174,11 @@ variable "enable_rbac_authorization" {
 
 variable "rbac_policy" {
   description = "List of rbac policies for the Key Vault."
-  default     = []
+  type = list(object({
+    principal_id         = string
+    role_definition_name = string
+  }))
+  default = []
 }
 
 variable "external_private_endpoint_map" {
