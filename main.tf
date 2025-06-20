@@ -1,5 +1,3 @@
-
-
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "key-vault" {
@@ -118,9 +116,9 @@ resource "azurerm_private_endpoint" "external_endpoint_vault" {
 }
 
 resource "azurerm_role_assignment" "keyvault_group_role_assignment" {
-  for_each = var.rbac_policy
+  for_each = { for i, policy in var.rbac_policy : i => policy }
 
-  principal_id         = each.key
+  principal_id         = each.value.principal_id
   scope                = azurerm_key_vault.key-vault.id
   role_definition_name = each.value.role_definition_name
 }
