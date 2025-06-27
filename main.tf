@@ -93,6 +93,13 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
   tags = var.tags
 }
 
+output "subnet_details" {
+  value = {
+    external_subnets_data = data.azurerm_subnet.external_subnet
+    external_map          = var.external_private_endpoint_map
+  }
+}
+
 resource "azurerm_private_endpoint" "external_endpoint_vault" {
   for_each            = var.external_private_endpoint_map
   name                = "${var.name}-${each.value.subnet_name}-${each.value.private_dns_resource_group_name}-vault-pe"
