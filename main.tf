@@ -87,6 +87,7 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
     is_manual_connection           = false
   }
   private_dns_zone_group {
+    count                = var.enable_data_lookup ? 1 : 0
     name                 = "dns-zone-group-kv"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
   }
@@ -108,6 +109,7 @@ resource "azurerm_private_endpoint" "external_endpoint_vault" {
   }
 
   private_dns_zone_group {
+    count                = var.enable_data_lookup ? 1 : 0
     name                 = "${var.name}-${each.value.private_dns_resource_group_name}-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_external[each.key].id]
   }
