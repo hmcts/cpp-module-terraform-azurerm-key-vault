@@ -103,7 +103,7 @@ output "debug1" {
 }
 
 output "debug2" {
-  value = var.external_private_endpoint_map[0].external_subnet_id
+  value = var.external_private_endpoint_map
 }
 
 resource "azurerm_private_endpoint" "external_endpoint_vault" {
