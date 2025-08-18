@@ -8,7 +8,6 @@ key_vaults = {
     enable_data_lookup              = false
     enable_rbac_authorization       = true
     purge_protection_enabled        = false
-    rbac_policy                     = []
     network_acls = {
       bypass         = "AzureServices"
       default_action = "Deny"
