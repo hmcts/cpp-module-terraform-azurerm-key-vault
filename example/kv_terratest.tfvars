@@ -8,17 +8,11 @@ key_vaults = {
     enable_data_lookup              = false
     enable_rbac_authorization       = true
     purge_protection_enabled        = false
-    rbac_policy = [
-      {
-        azure_ad_service_principal_names = []
-        azure_ad_group_names             = []
-        azure_ad_user_principal_names    = []
-        role_definition_name             = null
-      }
-    ]
+    rbac_policy = [],
     network_acls = {
       bypass         = "AzureServices"
       default_action = "Deny"
     }
   }
 }
+rbac_policy = []
