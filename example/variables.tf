@@ -133,7 +133,6 @@ variable "key_vaults" {
       azure_ad_user_principal_names    = optional(list(string))
       role_definition_name             = optional(string)
     }))
-
   }))
   default     = {}
   description = "Configuration for key vault creation"
