@@ -79,11 +79,12 @@ locals {
       enabled_for_disk_encryption     = local.key_vault_attributes[kv_name].enabled_for_disk_encryption
       secrets                         = local.key_vault_attributes[kv_name].secrets
       network_acls                    = local.key_vault_attributes[kv_name].network_acls
-      rbac_policy = {
-        for policy in policies : policy.object_id => {
+      rbac_policy = [
+        for policy in policies : {
+          object_id            = policy.object_id
           role_definition_name = policy.role_definition_name
         }
-      }
+      ]
     }
   }
 
