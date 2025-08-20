@@ -15,4 +15,3 @@ key_vaults = {
     }
   }
 }
-rbac_policy = []
