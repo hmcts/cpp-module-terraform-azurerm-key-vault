@@ -86,10 +86,15 @@ resource "azurerm_private_endpoint" "endpoint-vault" {
     subresource_names              = ["vault"]
     is_manual_connection           = false
   }
-  private_dns_zone_group {
-    name                 = "dns-zone-group-kv"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
+
+  dynamic "private_dns_zone_group" {
+    for_each = var.enable_data_lookup ? [true] : []
+    content {
+      name                 = "dns-zone-group-kv"
+      private_dns_zone_ids = [data.azurerm_private_dns_zone.dns_kv[0].id]
+    }
   }
+
   tags = var.tags
 }
 
