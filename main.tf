@@ -1,3 +1,11 @@
+locals {
+  default_roles = [
+    "Key Vault Secrets User",
+    "Key Vault Certificate User",
+    "Key Vault Crypto User",
+  ]
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "key-vault" {
@@ -122,6 +130,26 @@ resource "azurerm_private_endpoint" "external_endpoint_vault" {
 
 resource "azurerm_role_assignment" "keyvault_group_role_assignment" {
   for_each = { for i, policy in var.rbac_policy : i => policy }
+
+  principal_id         = each.value.principal_id
+  scope                = azurerm_key_vault.key-vault.id
+  role_definition_name = each.value.role_definition_name
+}
+
+resource "azurerm_role_assignment" "keyvault_ado_key_vault_admin_role_assignment" {
+  principal_id         = data.azurerm_client_config.current.object_id # Pipeline runner identity
+  scope                = azurerm_key_vault.key-vault.id
+  role_definition_name = "Key Vault Administrator"
+}
+
+resource "azurerm_role_assignment" "keyvault_rbac_default_role_assignment" {
+  for_each = {
+    for pair in setproduct(var.rbac_policy[*].principal_id, local.default_roles) :
+    "${pair[0]}_${pair[1]}" => {
+      principal_id         = pair[0]
+      role_definition_name = pair[1]
+    }
+  }
 
   principal_id         = each.value.principal_id
   scope                = azurerm_key_vault.key-vault.id
