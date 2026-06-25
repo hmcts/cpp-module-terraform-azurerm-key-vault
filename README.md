@@ -30,23 +30,16 @@ rather than `main`, so that upgrades are deliberate.
 
 Release automation lives in
 [`.github/workflows/release-drafter.yaml`](.github/workflows/release-drafter.yaml).
-Every merge to `main` keeps a **draft** GitHub Release up to date; the next version
-is resolved from the **labels on the merged pull requests** (configured in
-[`.github/release-drafter.yml`](.github/release-drafter.yml)):
+Every merge to `main` keeps a **draft** GitHub Release up to date (drafted by
+`release-drafter/release-drafter@v6`). A maintainer **publishes** the draft, which
+creates the immutable `vX.Y.Z` Git tag that consumers pin to, and
+[`CHANGELOG.md`](./CHANGELOG.md) is updated automatically via the shared
+`update-changelog` action from
+[`hmcts/cnp-githubactions-library`](https://github.com/hmcts/cnp-githubactions-library).
 
-| PR label | Bump | Example |
-|----------|------|---------|
-| `breaking-change` | MAJOR | `v1.4.2` → `v2.0.0` |
-| `enhancement` | MINOR | `v1.4.2` → `v1.5.0` |
-| `bug`, `dependencies`, `documentation`, `chore` | PATCH | `v1.4.2` → `v1.4.3` |
-| _(no label)_ | PATCH (default) | `v1.4.2` → `v1.4.3` |
-| `skip-changelog` | excluded from the release notes | — |
-
-- A maintainer **publishes** the draft release, which creates the immutable
-  `vX.Y.Z` Git tag that consumers pin to.
-- Publishing updates [`CHANGELOG.md`](./CHANGELOG.md) automatically via the shared
-  `update-changelog` action from
-  [`hmcts/cnp-githubactions-library`](https://github.com/hmcts/cnp-githubactions-library).
+By default each release is a **patch** bump. Label-driven `MAJOR`/`MINOR` bumps
+(a `.github/release-drafter.yml` config plus a standard label set) will be added
+separately, as part of the HMCTS module label guidance.
 
 <!-- BEGIN_TF_DOCS -->
 
