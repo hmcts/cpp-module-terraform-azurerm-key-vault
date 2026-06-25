@@ -2,8 +2,8 @@ name: Release Drafter
 
 # Drafts the next SemVer release on every push to main (version resolved from PR
 # labels — see .github/release-drafter.yml), then updates CHANGELOG.md via the
-# local vendored action in .github/actions/update-changelog (no external library
-# dependency). A maintainer publishes the draft to create the vX.Y.Z tag.
+# shared update-changelog action from hmcts/cnp-githubactions-library. A
+# maintainer publishes the draft to create the vX.Y.Z tag.
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Update changelog
         if: steps.drafter.outputs.resolved_version != ''
-        uses: ./.github/actions/update-changelog
+        uses: hmcts/cnp-githubactions-library/update-changelog@main
         with:
           github-token: ${{ github.token }}
           version: ${{ steps.drafter.outputs.resolved_version }}

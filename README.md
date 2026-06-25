@@ -44,9 +44,9 @@ is resolved from the **labels on the merged pull requests** (configured in
 
 - A maintainer **publishes** the draft release, which creates the immutable
   `vX.Y.Z` Git tag that consumers pin to.
-- Publishing updates [`CHANGELOG.md`](./CHANGELOG.md) automatically via the local
-  action in [`.github/actions/update-changelog`](.github/actions/update-changelog)
-  (a vendored copy of the HMCTS shared action — no external dependency).
+- Publishing updates [`CHANGELOG.md`](./CHANGELOG.md) automatically via the shared
+  `update-changelog` action from
+  [`hmcts/cnp-githubactions-library`](https://github.com/hmcts/cnp-githubactions-library).
 
 <!-- BEGIN_TF_DOCS -->
 
