@@ -29,17 +29,24 @@ rather than `main`, so that upgrades are deliberate.
 ### How releases are produced
 
 Release automation lives in
-[`.github/workflows/release.yaml`](.github/workflows/release.yaml) and uses only
-the GitHub CLI (`gh`) — there are no third-party action dependencies.
+[`.github/workflows/release-drafter.yaml`](.github/workflows/release-drafter.yaml).
+Every merge to `main` keeps a **draft** GitHub Release up to date; the next version
+is resolved from the **labels on the merged pull requests** (configured in
+[`.github/release-drafter.yml`](.github/release-drafter.yml)):
 
-- **Every merge to `main`** runs the workflow, which calculates the next version
-  from the latest tag (a **patch** bump by default), creates or updates a **draft**
-  GitHub Release, and prepends the change to [`CHANGELOG.md`](./CHANGELOG.md).
-- **Minor or major bumps** are deliberate: run the **Release** workflow from the
-  Actions tab (`workflow_dispatch`) and choose `minor` (new backwards-compatible
-  input/output) or `major` (breaking change) as the bump type.
+| PR label | Bump | Example |
+|----------|------|---------|
+| `breaking-change` | MAJOR | `v1.4.2` → `v2.0.0` |
+| `enhancement` | MINOR | `v1.4.2` → `v1.5.0` |
+| `bug`, `dependencies`, `documentation`, `chore` | PATCH | `v1.4.2` → `v1.4.3` |
+| _(no label)_ | PATCH (default) | `v1.4.2` → `v1.4.3` |
+| `skip-changelog` | excluded from the release notes | — |
+
 - A maintainer **publishes** the draft release, which creates the immutable
   `vX.Y.Z` Git tag that consumers pin to.
+- Publishing updates [`CHANGELOG.md`](./CHANGELOG.md) automatically via the local
+  action in [`.github/actions/update-changelog`](.github/actions/update-changelog)
+  (a vendored copy of the HMCTS shared action — no external dependency).
 
 <!-- BEGIN_TF_DOCS -->
 
