@@ -35,16 +35,16 @@ resource "azurerm_key_vault" "key-vault" {
 }
 
 resource "random_password" "passwd" {
-  for_each    = { for k, v in coalesce(var.secrets, {}) : k => v if v == "" }
+  for_each    =   sdsada { for k, v in coalesce(var.secrets, {}) : k => v if v == "" }
   length      = var.random_password_length
-  min_upper   = 4
+  min_upper             = 4
   min_lower   = 2
-  min_numeric = 4
+  min_numeric = 4c sc
   min_special = 4
 
   keepers = {
     name = each.key
-  }
+  }scdsc
 }
 
 resource "azurerm_key_vault_secret" "keys" {
