@@ -1,18 +1,45 @@
-# terraform-module-template
+# cpp-module-terraform-azurerm-key-vault
 
-<!-- TODO fill in resource name in link to product documentation -->
-Terraform module for [Resource name](https://example.com).
+Terraform module for provisioning an [Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/overview).
 
 ## Example
 
-<!-- todo update module name
 ```hcl
-module "todo_resource_name" {
-  source = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
-  ...
-}
+module "key_vault" {
+  source = "git@github.com:hmcts/cpp-module-terraform-azurerm-key-vault.git?ref=v1.0.0"
 
+  # ... see variables.tf for the full list of inputs
+}
 ```
+
+## Versioning
+
+This module uses [Semantic Versioning](https://semver.org/#summary) (`MAJOR.MINOR.PATCH`),
+published as Git tags of the form `vMAJOR.MINOR.PATCH` (for example `v1.0.0`).
+
+| Segment | Increments when | Action for consumers |
+|---------|-----------------|----------------------|
+| MAJOR   | A backwards-incompatible change is made (renamed/removed inputs or outputs, or behaviour that forces resource replacement). | Review before upgrading; may need state changes. |
+| MINOR   | New backwards-compatible functionality is added (e.g. a new optional input). | Safe to adopt. |
+| PATCH   | A backwards-compatible bug fix or maintenance change is made. | Safe to adopt. |
+
+Always pin the `?ref=` in your `source` to a released tag (e.g. `?ref=v1.0.0`)
+rather than `main`, so that upgrades are deliberate.
+
+### How releases are produced
+
+Release automation lives in
+[`.github/workflows/release-drafter.yaml`](.github/workflows/release-drafter.yaml).
+Every merge to `main` keeps a **draft** GitHub Release up to date (drafted by
+`release-drafter/release-drafter@v6`). A maintainer **publishes** the draft, which
+creates the immutable `vX.Y.Z` Git tag that consumers pin to, and
+[`CHANGELOG.md`](./CHANGELOG.md) is updated automatically via the shared
+`update-changelog` action from
+[`hmcts/cnp-githubactions-library`](https://github.com/hmcts/cnp-githubactions-library).
+
+By default each release is a **patch** bump. Label-driven `MAJOR`/`MINOR` bumps
+(a `.github/release-drafter.yml` config plus a standard label set) will be added
+separately, as part of the HMCTS module label guidance.
 
 <!-- BEGIN_TF_DOCS -->
 

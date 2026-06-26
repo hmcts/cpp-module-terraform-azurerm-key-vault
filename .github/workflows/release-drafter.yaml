@@ -1,0 +1,38 @@
+name: Release Drafter
+
+# Drafts the next SemVer release on every push to main, then updates CHANGELOG.md
+# via the shared update-changelog action from hmcts/cnp-githubactions-library. A
+# maintainer publishes the draft to create the vX.Y.Z tag.
+# Releases default to a patch bump; label-driven major/minor bumps can be enabled
+# later by adding a .github/release-drafter.yml config (see README).
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Draft release
+        id: drafter
+        uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Update changelog
+        if: steps.drafter.outputs.resolved_version != ''
+        uses: hmcts/cnp-githubactions-library/update-changelog@main
+        with:
+          github-token: ${{ github.token }}
+          version: ${{ steps.drafter.outputs.resolved_version }}
+          tag: ${{ steps.drafter.outputs.tag_name }}
