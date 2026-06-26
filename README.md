@@ -12,6 +12,20 @@ module "key_vault" {
 }
 ```
 
+## RBAC authorisation
+
+Azure is planning to eventually phase out Access Policies and recommends using to Role Based Access Control as it is a more robust and secure authorisation mechanism.
+This module and its current consumers have been fully migrated to use RBAC authorisation instead of the Access Policies.
+While Access Policies are still supported by Microsoft, the ability to pass them to this module has been removed and the RBAC is enabled by default.
+When deploying new Key Vault using this module you should use RBAC authorisation with an appropriate role assignment and principal id.
+
+## Default role assignments
+
+By default this module will create:
+- `Key Vault Administrator` role assignment on the Service Principal that belongs to the ADO pipeline running it
+- `Key Vault Secrets User`, `Key Vault Certificate User` and `Key Vault Crypto User` role assignments on every principal id passed to this module within the `rbac_policy` variable.
+
+
 ## Versioning
 
 This module uses [Semantic Versioning](https://semver.org/#summary) (`MAJOR.MINOR.PATCH`),
@@ -40,6 +54,24 @@ creates the immutable `vX.Y.Z` Git tag that consumers pin to, and
 By default each release is a **patch** bump. Label-driven `MAJOR`/`MINOR` bumps
 (a `.github/release-drafter.yml` config plus a standard label set) will be added
 separately, as part of the HMCTS module label guidance.
+
+### Release labels and PR titles
+
+PR titles and labels are used by the release drafter to decide how to bump the version and are verified by the [pr-label-check workflow](./github/workflows/pr-label-check.yaml).
+More detailed documentation on [how this works is available here](https://github.com/hmcts/cnp-githubactions-library/blob/main/.github/workflows/label-check.md).
+
+Quick reference (double check above for changes/updates):
+
+| PR title prefix | Label applied | Version bump |
+| --- | --- | --- |
+| `feat:` / `feat(scope):` | `enhancement` | minor `1.0.0 -> 1.1.0` |
+| `fix:` / `fix(scope):` | `bug` | patch `1.0.0 -> 1.0.1` |
+| `chore:` / `chore(scope):` | `chore` | patch `1.0.0 -> 1.0.1` |
+| `docs:` / `docs(scope):` | `documentation` | patch `1.0.0 -> 1.0.1` |
+| `deps:` / `build:` (and scoped variants) | `dependencies` / `build` | patch `1.0.0 -> 1.0.1` |
+| `<anything>` | `breaking-change` * | major `1.0.0 -> 2.0.0` |
+
+  ⚠️ * Breaking changes are not auto-detected from the PR title. Add the breaking-change label manually to any PR that introduces a breaking change.
 
 <!-- BEGIN_TF_DOCS -->
 
