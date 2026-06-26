@@ -10,6 +10,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial tagged release of the `cpp-module-terraform-azurerm-key-vault` module.
-- Self-contained SemVer release automation (`.github/workflows/release.yaml`):
-  draft GitHub Releases and CHANGELOG updates on merge to `main`, using only the
-  GitHub CLI.
+- Semantic Versioning with automated release drafting (Release Drafter) and
+  automatic CHANGELOG updates via the shared HMCTS update-changelog action.
