@@ -1,0 +1,64 @@
+# Release Drafter configuration — HMCTS standard label set.
+# Copy this file to .github/release-drafter.yml in your consumer repo.
+# See workflows/label-check.yaml for PR label enforcement.
+#
+# Labels to create in your repo (3 are GitHub defaults, 4 are new):
+#   breaking-change  → major bump       (create)
+#   enhancement      → minor bump        (GitHub default)
+#   bug              → patch bump        (GitHub default)
+#   dependencies     → patch bump        (GitHub default)
+#   documentation    → patch bump        (GitHub default)
+#   chore            → patch bump        (create)
+#   skip-changelog   → excluded          (create)
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+# ---------------------------------------------------------------------------
+# Version bump rules — highest-priority label on any merged PR wins.
+# ---------------------------------------------------------------------------
+version-resolver:
+  major:
+    labels:
+      - breaking-change
+  minor:
+    labels:
+      - enhancement
+  patch:
+    labels:
+      - bug
+      - dependencies
+      - documentation
+      - chore
+  default: patch
+
+# ---------------------------------------------------------------------------
+# Release note sections — order controls order in the release body.
+# ---------------------------------------------------------------------------
+categories:
+  - title: ':boom: Breaking Changes'
+    labels:
+      - breaking-change
+  - title: ':rocket: Features'
+    labels:
+      - enhancement
+  - title: ':bug: Bug Fixes'
+    labels:
+      - bug
+  - title: ':package: Dependency Updates'
+    labels:
+      - dependencies
+  - title: ':books: Documentation'
+    labels:
+      - documentation
+  - title: ':wrench: Maintenance'
+    labels:
+      - chore
+
+# PRs with these labels are omitted from release notes entirely.
+exclude-labels:
+  - skip-changelog
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+template: |
+  $CHANGES
