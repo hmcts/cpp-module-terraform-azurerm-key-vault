@@ -27,11 +27,12 @@ locals {
   # Remove role assignments that are already handled by dedicated module logic:
   # - default role assignments are created via keyvault_rbac_default_role_assignment
   # - runner Key Vault Administrator is created via keyvault_ado_key_vault_admin_role_assignment
-  runner_admin_role_key = lower("${data.azurerm_client_config.current.object_id}_Key Vault Administrator")
+  # runner_admin_role_key = lower("${data.azurerm_client_config.current.object_id}_Key Vault Administrator")
   filtered_principal_roles = {
     for key, value in local.all_principal_roles :
     key => value
-    if !contains(local.default_roles_normalized, lower(value.role_definition_name)) && key != local.runner_admin_role_key
+    if !contains(local.default_roles_normalized, lower(value.role_definition_name))
+    # if !contains(local.default_roles_normalized, lower(value.role_definition_name)) && key != local.runner_admin_role_key
   }
 
   # Construct a map with unique keys for principal_id x default_role combinations
