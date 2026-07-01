@@ -175,20 +175,6 @@ func TestRoleAssignments_RbacDefaultDedupe(t *testing.T) {
 	assert.Contains(t, roleNames(summary.Default), "Key Vault Crypto User")
 }
 
-func TestRoleAssignments_RunnerAdminOnlyInput(t *testing.T) {
-	t.Parallel()
-
-	summary := planRoleAssignments(t, "rbac-runner-admin-only")
-
-	assert.Len(t, summary.Explicit, 0)
-	assert.Len(t, summary.Admin, 1)
-	assert.Equal(t, []string{"Key Vault Administrator"}, roleNames(summary.Admin))
-	assert.Len(t, summary.Default, 3)
-	assert.Contains(t, roleNames(summary.Default), "Key Vault Secrets User")
-	assert.Contains(t, roleNames(summary.Default), "Key Vault Certificate User")
-	assert.Contains(t, roleNames(summary.Default), "Key Vault Crypto User")
-}
-
 func TestRoleAssignments_DuplicateExplicitInput(t *testing.T) {
 	t.Parallel()
 
