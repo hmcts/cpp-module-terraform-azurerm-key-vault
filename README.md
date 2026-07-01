@@ -146,6 +146,35 @@ Quick reference (double check above for changes/updates):
 | <a name="output_vault_uri"></a> [vault\_uri](#output\_vault\_uri) | The URI of the Key Vault, used for performing operations on keys and secrets. |
 <!-- END_TF_DOCS -->
 
+## Running Terratest Locally
+
+This repository includes a root Makefile with helper targets for local Terratest runs.
+
+- `make az-login`: runs `az login` so Terraform can authenticate with Azure.
+- `make terratest-all`: runs all Terratest tests with `go test` (depends on `az-login`).
+- `make terratest-all-gotestsum`: runs all Terratest tests with `gotestsum` (depends on `az-login`).
+- `make terratest-role-assignments`: runs only role-assignment tests (depends on `az-login`).
+- `make terratest-role-assignments-gotestsum`: runs only role-assignment tests with `gotestsum` (depends on `az-login`).
+- `make terratest-test TEST_NAME='<regex>'`: universal target to run any test subset with `go test` (depends on `az-login`).
+- `make terratest-test-gotestsum TEST_NAME='<regex>'`: universal target to run any test subset with `gotestsum` (depends on `az-login`).
+
+Optional variables:
+
+- `TERRATEST_TIMEOUT` (default `30`) to control test timeout in minutes.
+
+Examples:
+
+```shell
+make terratest-all
+make terratest-all-gotestsum
+make terratest-role-assignments
+make terratest-role-assignments-gotestsum
+make terratest-test TEST_NAME='^TestRoleAssignments_EmptyRbacPolicy$'
+make terratest-test-gotestsum TEST_NAME='^TestRoleAssignments_'
+```
+
+Important: tests that perform real `terraform apply`/resource creation and then `destroy` may fail for users without sufficient Azure permissions in the target subscription/tenant.
+
 ## Contributing
 
 We use pre-commit hooks for validating the terraform format and maintaining the documentation automatically.
