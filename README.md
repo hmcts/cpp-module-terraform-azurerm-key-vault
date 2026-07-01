@@ -80,7 +80,7 @@ Quick reference (double check above for changes/updates):
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.78.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.79.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.9.0 |
 
 ## Resources
